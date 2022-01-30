@@ -39,10 +39,23 @@ function jump(){
 function createCactus(){
     const cactus = document.createElement('div');
     let cactusPosition = 1000;
+    let randomTime = Math.random() * 6000;
 
     cactus.classList.add('cactus');
     background.appendChild(cactus); // adiciona o cactus
     cactus.style.left = cactusPosition + 'px';
+
+    let leftInterval = setInterval(() =>{
+        if (cactusPosition < -60){
+            // Saiu da tela
+            clearInterval(leftInterval);
+            background.removeChild(cactus);
+        }else{
+            cactusPosition -= 10;
+            cactus.style.left = cactusPosition + 'px';
+        }
+    },20);
+    setTimeout(createCactus, randomTime); //vai ser executada depois de um determinado tempo
 }
 
 createCactus();
