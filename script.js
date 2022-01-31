@@ -3,11 +3,16 @@ const background = document.querySelector('.background');//nao pode ser sobreesc
 
 let isJumping = false;
 let position = 0;
+let isGameOver = false;
 
 function handleKeyUp(event) {
-    if (event.keyCode === 32) {//space
+    if (event.keyCode === 32 || event.button === 0) {//space
         if (!isJumping){
             jump();
+        }
+        if(isGameOver == true){
+            isGameOver = false;
+            location.reload();
         }
     }
 }
@@ -27,19 +32,21 @@ function jump(){
                     position -= 20;
                     dino.style.bottom = position + 'px';
                 }
-            },20);
+            },40);
         }else{
             // Subindo
             position += 20;
             dino.style.bottom = position + 'px'; 
         }
-    },20);
+    },10);
 }
 
 function createCactus(){
     const cactus = document.createElement('div');
     let cactusPosition = 1000;
     let randomTime = Math.random() * 6000;
+
+    if (isGameOver) return;
 
     cactus.classList.add('cactus');
     background.appendChild(cactus); // adiciona o cactus
@@ -54,14 +61,16 @@ function createCactus(){
         }else if (cactusPosition > 0 && cactusPosition < 60 && position < 60) {
             // Game over
             clearInterval(leftInterval);
-            document.body.innerHTML = '<h1 class="game-over">Fim de jogo</h1>';
+            isGameOver = true;
+            document.body.innerHTML = '<h1 class="game-over">Fim de jogo</h1> <img class="go-img" src="reload.png" alt="reload">';
         }else{
             cactusPosition -= 10;
             cactus.style.left = cactusPosition + 'px';
         }
-    },20);
+    },25);
     setTimeout(createCactus, randomTime); //vai ser executada depois de um determinado tempo
 }
 
 createCactus();
 document.addEventListener('keyup', handleKeyUp);
+document.addEventListener('click', handleKeyUp);
