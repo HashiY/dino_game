@@ -1,6 +1,10 @@
 const dino = document.querySelector('.dino'); //para selecionar e manipular os elementos da tela
 const background = document.querySelector('.background');//nao pode ser sobreescrito
 
+var canvas = document.getElementById("myCanvas");
+var ctx = canvas.getContext("2d");
+var score = 0;
+
 let isJumping = false;
 let position = 0;
 let isGameOver = false;
@@ -12,6 +16,7 @@ function handleKeyUp(event) {
         }
         if(isGameOver == true){
             isGameOver = false;
+            score = 0;
             location.reload();
         }
     }
@@ -57,6 +62,7 @@ function createCactus(){
             // Saiu da tela
             clearInterval(leftInterval);
             background.removeChild(cactus);
+            score++;
         //Colisao com o dino
         }else if (cactusPosition > 0 && cactusPosition < 60 && position < 60) {
             // Game over
@@ -71,6 +77,19 @@ function createCactus(){
     setTimeout(createCactus, randomTime); //vai ser executada depois de um determinado tempo
 }
 
-createCactus();
+function Score() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.font = "20px Arial";
+    ctx.fillStyle = "#010b12";
+    ctx.fillText("Score: "+score, 8, 20);
+    setTimeout(Score, 10);
+}
+
+function iniciar(){
+    createCactus();
+    Score();
+}
+
+iniciar();
 document.addEventListener('keyup', handleKeyUp);
 document.addEventListener('click', handleKeyUp);

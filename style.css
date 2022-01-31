@@ -45,7 +45,6 @@ body {
     bottom: 50%;
     background: url('background.png');
     filter: invert(99%) sepia(23%) saturate(2%) hue-rotate(65deg) brightness(106%) contrast(100%);
-    /*background-color: #2a2941;*/
     background-repeat: repeat-x; /*Repetir no eixo x*/
     animation: slideright 600s infinite linear;
     -webkit-animation: slideright 600s infinite linear;
